@@ -20,6 +20,6 @@ for name, code in codes.items():
                                nav=lambda x: x.nav.astype(float))
     frames.append(s.set_index("date")["nav"].rename(name))
 
-navs = pd.concat(frames, axis=1, sort=True).sort_index().loc["2020-10-01":].dropna()
+navs = pd.concat(frames, axis=1, sort=True).sort_index().loc["2020-10-01":"2026-10-13"].dropna()  # fixed window = reproducible
 navs.to_csv("../data/navs.csv")
 print("Done:", navs.shape[0], "rows x", navs.shape[1], "funds")

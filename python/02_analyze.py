@@ -43,10 +43,13 @@ fig, ax = plt.subplots(figsize=(9, 6))
 for name, row in summary.iterrows():
     color = "black" if name == BENCH else "tab:blue"
     ax.scatter(row["Volatility"] * 100, row["CAGR"] * 100, color=color, s=60)
+    left = name == "ICICI Pru Large Cap"          # label on the left to avoid overlap
     ax.annotate(name, (row["Volatility"] * 100, row["CAGR"] * 100), fontsize=8,
-                xytext=(5, 3), textcoords="offset points")
+                xytext=(-5 if left else 5, 3), textcoords="offset points",
+                ha="right" if left else "left")
+ax.set_xlim(10, 18); ax.set_ylim(10, 21)    # same width on both axes, so risk gaps are not exaggerated
 ax.set_xlabel("Volatility (% per year)"); ax.set_ylabel("CAGR (%)")
-ax.set_title("Risk vs return (up and left is better)")
+ax.set_title("Risk vs return: similar risk, different returns")
 plt.tight_layout(); plt.savefig("../output/2_risk_return.png", dpi=150); plt.close()
 
 br = summary["Beat rate (3y windows)"].dropna().sort_values() * 100

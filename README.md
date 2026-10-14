@@ -47,12 +47,13 @@ A formatted version is in [`output/summary_formatted.xlsx`](output/summary_forma
 
 ## Method
 
+- **Returns are after fees.** NAVs are published net of each fund's expense ratio, so the comparison already includes the active funds' higher fees.
 - **Data:** daily NAVs from [mfapi.in](https://www.mfapi.in/), a free API over AMFI data. Direct Plan – Growth option for every fund, so fee structures are comparable.
 - **Period:** 1 Oct 2020 – 13 Oct 2026 (6 years, about 1,500 trading days).
 - **Metrics:**
   - **CAGR:** average yearly return
   - **Volatility:** standard deviation of daily returns × √252
-  - **Sharpe ratio:** (CAGR − 6.5%) ÷ volatility. The 6.5% approximates the 91-day T-bill yield.
+  - **Sharpe ratio:** (CAGR − 6.5%) ÷ volatility. The 6.5% approximates the recent 91-day T-bill yield; T-bill yields were lower (about 3–4%) in 2020–21, so all Sharpe ratios are slightly understated. The ranking does not change, because every fund uses the same rate.
   - **Max drawdown:** the worst fall from a previous peak
   - **Beat rate:** the share of all rolling 3-year periods in which the fund's return beat the index fund's
 
@@ -60,7 +61,8 @@ A formatted version is in [`output/summary_formatted.xlsx`](output/summary_forma
 
 - **Survivorship bias.** I only picked funds that exist today. Funds that closed or merged after doing badly are missing, which flatters active funds.
 - **Selection.** These are 8 large, well-known funds, not every large-cap fund. Funds often become well known *because* they did well.
-- **One market cycle.** 6 years is short. The 3-year windows overlap heavily, so the 100% beat rates are far less impressive than they look.
+- **One market cycle.** 6 years is short. The 730 rolling 3-year windows overlap heavily (neighbouring windows share almost all their days), so the 100% beat rates are far less impressive than they look.
+- **Start date.** The window starts in Oct 2020, during the post-COVID recovery. A different start date could change the ranking.
 - **Possible tilt, not skill.** SEBI lets large-cap funds hold up to 20% outside the top 100 stocks, and 2020–2026 was strong for mid and small caps. Part of the outperformance may come from that tilt rather than stock picking. *Not tested here.*
 - **Benchmark.** I used an index fund, which carries its own small costs, not the pure Nifty 50 Total Return Index.
 - **Ignored:** taxes, exit loads, and the timing effects of SIP (monthly) investing.
@@ -71,7 +73,7 @@ A formatted version is in [`output/summary_formatted.xlsx`](output/summary_forma
 
 ```bash
 py -m venv .venv
-.venv/Scripts/python.exe -m pip install -r requirements.txt
+./.venv/Scripts/python.exe -m pip install -r requirements.txt
 cd python
 ../.venv/Scripts/python.exe 01_get_data.py    # downloads NAVs to data/navs.csv
 ../.venv/Scripts/python.exe 02_analyze.py     # writes output/summary.xlsx and 3 charts
